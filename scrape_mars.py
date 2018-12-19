@@ -6,14 +6,19 @@ import requests
 
 
 def scrape():
-    mars_data_scrape = {}
-    mars_data_scrape["title"] = scrape_info()[0]
-    mars_data_scrape["paragraph"] = scrape_info()[1]
-    mars_data_scrape["image"] = scrape_images()
-    mars_data_scrape["weather"] = scrape_twitter()
-    mars_data_scrape["facts"] = scrape_facts()
-    mars_data_scrape["hemispheres"] = scrape_hemisphere()
-    return mars_data_scrape
+    mars_data = {}
+    output = scrape_info()
+
+    mars_data.update({
+        "title":output["news_title"],
+        "paragraph":output["news_p"],
+        "img":scrape_images(),
+        "weather":scrape_twitter(),
+        "facts":scrape_facts(),
+        "hemisphere":scrape_hemisphere()
+    })
+
+    return mars_data
 
 # def init_browser():
 #     executable_path = {"executable_path": "chromedriver.exe"}
@@ -86,7 +91,7 @@ def scrape_twitter():
 # use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc
 # Use Pandas to convert the data to a HTML table string
 def scrape_facts():
-    browser = Browser("chrome")
+    # browser = Browser("chrome")
 
     url_4 = "https://space-facts.com/mars/"
     tables = pd.read_html(url_4)
